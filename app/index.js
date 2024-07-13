@@ -12,8 +12,10 @@ import Animated, { FadeInDown } from "react-native-reanimated";
 // Custom Imports
 import { wp, hp } from "../helpers/common";
 import { theme } from "../constants/theme";
+import { useRouter } from "expo-router";
 
 const WelcomeScreen = () => {
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -56,7 +58,10 @@ const WelcomeScreen = () => {
           </Animated.Text>
 
           <Animated.View entering={FadeInDown.delay(600).springify()}>
-            <Pressable style={styles.startButton}>
+            <Pressable
+              style={styles.startButton}
+              onPress={() => router.push("home")}
+            >
               <Text style={styles.startText}>Start Explore</Text>
             </Pressable>
           </Animated.View>
