@@ -9,13 +9,14 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { useRouter } from "expo-router";
 // Custom Imports
 import { wp, hp } from "../helpers/common";
 import { theme } from "../constants/theme";
-import { useRouter } from "expo-router";
 
 const WelcomeScreen = () => {
   const router = useRouter();
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
