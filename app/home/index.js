@@ -12,6 +12,7 @@ import { Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
 // Custom Imports
 import { theme } from "../../constants/theme";
 import { wp, hp } from "../../helpers/common";
+import Categories from "./components/Categories";
 
 const Home = () => {
   const insets = useSafeAreaInsets();
@@ -19,7 +20,13 @@ const Home = () => {
 
   const searchInputRef = useRef(null);
 
+  // states
   const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState(null);
+
+  const handleChangeCategory = (category) => {
+    setActiveCategory(category);
+  };
 
   return (
     <View style={[styles.container, { paddingTop }]}>
@@ -67,6 +74,14 @@ const Home = () => {
               />
             </Pressable>
           )}
+        </View>
+
+        {/* Categories */}
+        <View>
+          <Categories
+            activeCategory={activeCategory}
+            handleChangeCategory={handleChangeCategory}
+          />
         </View>
       </ScrollView>
     </View>
