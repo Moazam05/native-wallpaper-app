@@ -6,13 +6,14 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
 // Custom Imports
 import { theme } from "../../constants/theme";
 import { wp, hp } from "../../helpers/common";
 import Categories from "./components/Categories";
+import { apiCall } from "../../api";
 
 const Home = () => {
   const insets = useSafeAreaInsets();
@@ -23,9 +24,25 @@ const Home = () => {
   // states
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState(null);
+  const [images, setImages] = useState([]);
 
   const handleChangeCategory = (category) => {
     setActiveCategory(category);
+  };
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const fetchImages = async (params = { page: 1, append: true }) => {
+    let result = await apiCall(params);
+    if (result.success && result.data?.hits) {
+      if (append) {
+        setImages([...images, ...result.data.hits]);
+      } else {
+        setImages([...result.data.hits]);
+      }
+    }
   };
 
   return (
@@ -83,6 +100,8 @@ const Home = () => {
             handleChangeCategory={handleChangeCategory}
           />
         </View>
+
+        {/* Images Masonry Grid */}
       </ScrollView>
     </View>
   );
