@@ -14,6 +14,7 @@ import { theme } from "../../constants/theme";
 import { wp, hp } from "../../helpers/common";
 import Categories from "./components/Categories";
 import { apiCall } from "../../api";
+import ImageGrid from "./components/ImageGrid";
 
 const Home = () => {
   const insets = useSafeAreaInsets();
@@ -30,20 +31,21 @@ const Home = () => {
     setActiveCategory(category);
   };
 
-  useEffect(() => {
-    fetchImages();
-  }, []);
-
   const fetchImages = async (params = { page: 1, append: true }) => {
     let result = await apiCall(params);
+
     if (result.success && result.data?.hits) {
-      if (append) {
-        setImages([...images, ...result.data.hits]);
+      if (params.append) {
+        setImages((prevImages) => [...prevImages, ...result.data.hits]);
       } else {
         setImages([...result.data.hits]);
       }
     }
   };
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
 
   return (
     <View style={[styles.container, { paddingTop }]}>
@@ -102,6 +104,7 @@ const Home = () => {
         </View>
 
         {/* Images Masonry Grid */}
+        <View>{images?.length > 0 && <ImageGrid images={images} />}</View>
       </ScrollView>
     </View>
   );
