@@ -1,3 +1,4 @@
+import React from "react";
 import {
   View,
   Text,
@@ -6,10 +7,10 @@ import {
   StyleSheet,
   Pressable,
 } from "react-native";
-import React from "react";
-import { wp, hp } from "../helpers/common";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInDown } from "react-native-reanimated";
+// Custom Imports
+import { wp, hp } from "../helpers/common";
 import { theme } from "../constants/theme";
 
 const WelcomeScreen = () => {
@@ -41,14 +42,24 @@ const WelcomeScreen = () => {
         />
         {/* Content */}
         <View style={styles.contentContainer}>
-          <Text style={styles.title}>Pixels</Text>
-          <Text style={styles.punchline}>Every Pixel Tells a Story</Text>
+          <Animated.Text
+            entering={FadeInDown.delay(400).springify()}
+            style={styles.title}
+          >
+            Pixels
+          </Animated.Text>
+          <Animated.Text
+            entering={FadeInDown.delay(500).springify()}
+            style={styles.punchline}
+          >
+            Every Pixel Tells a Story
+          </Animated.Text>
 
-          <View>
+          <Animated.View entering={FadeInDown.delay(600).springify()}>
             <Pressable style={styles.startButton}>
               <Text style={styles.startText}>Start Explore</Text>
             </Pressable>
-          </View>
+          </Animated.View>
         </View>
       </Animated.View>
     </View>
