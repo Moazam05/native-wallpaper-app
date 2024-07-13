@@ -31,7 +31,7 @@ const Home = () => {
     setActiveCategory(category);
   };
 
-  const fetchImages = async (params = { page: 1, append: true }) => {
+  const fetchImages = async (params = { page: 1, append: false }) => {
     let result = await apiCall(params);
 
     if (result.success && result.data?.hits) {
