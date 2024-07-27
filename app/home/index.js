@@ -32,10 +32,22 @@ const Home = () => {
 
   const handleChangeCategory = (category) => {
     setActiveCategory(category);
+    // clear search
+    setSearch("");
+    searchInputRef.current.clear();
+    page = 1;
+    setImages([]);
+
+    let params = { page, append: false };
+    if (category) {
+      params.category = category;
+    }
+    fetchImages(params);
   };
 
   const fetchImages = async (params = { page: 1, append: false }) => {
     let result = await apiCall(params);
+    console.log("params", params);
 
     if (result.success && result.data?.hits) {
       if (params.append) {
@@ -52,6 +64,8 @@ const Home = () => {
 
   const handleSearch = (text) => {
     setSearch(text);
+
+    setActiveCategory(null);
 
     if (text.length > 2) {
       // then fetch images
