@@ -7,6 +7,8 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import { hp } from "../../../helpers/common";
+import { theme } from "../../../constants/theme";
 
 const FiltersModal = ({ modalRef }) => {
   const snapPoints = useMemo(() => ["75%"], []);
@@ -20,7 +22,10 @@ const FiltersModal = ({ modalRef }) => {
       backdropComponent={CustomBackdrop}
     >
       <BottomSheetView style={styles.contentContainer}>
-        <Text>Awesome 🎉</Text>
+        <View style={styles.content}>
+          <Text style={styles.filterText}>Filters</Text>
+          <Text style={styles.filterText}>Search here</Text>
+        </View>
       </BottomSheetView>
     </BottomSheetModal>
   );
@@ -61,6 +66,18 @@ const styles = StyleSheet.create({
   },
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  content: {
+    width: "100%",
+    gap: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  filterText: {
+    fontSize: hp(4),
+    fontWeight: theme.fontWeights.semibold,
+    color: theme.colors.neutral(0.8),
+    marginBottom: 5,
   },
 });
 
