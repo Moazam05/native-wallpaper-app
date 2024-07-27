@@ -5,12 +5,16 @@ import ImageCard from "./ImageCard";
 import { wp } from "../../../helpers/common";
 
 const ImageGrid = ({ images }) => {
+  const numColumns = 2;
+
   return (
     <View style={styles.container}>
       <MasonryFlashList
         data={images}
-        numColumns={2}
-        renderItem={({ item }) => <ImageCard item={item} />}
+        numColumns={numColumns}
+        renderItem={({ item, index }) => (
+          <ImageCard item={item} index={index} columns={numColumns} />
+        )}
         estimatedItemSize={200}
       />
     </View>
