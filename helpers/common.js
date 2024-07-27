@@ -13,3 +13,16 @@ export const hp = (percentage) => {
   const height = deviceHeight;
   return (percentage * height) / 100;
 };
+
+export const getImageSize = (width, height) => {
+  if (width > height) {
+    // landscape
+    return 250;
+  } else if (width < height) {
+    // portrait
+    return 300;
+  } else {
+    // square
+    return 200;
+  }
+};
