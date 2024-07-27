@@ -15,22 +15,32 @@ export const CommonFiltersRow = ({ data, filters, setFilters, filterName }) => {
   return (
     <View style={styles.flexRowWrap}>
       {data &&
-        data.map((item, index) => (
-          <Pressable
-            key={index}
-            onPress={() =>
-              setFilters((prevFilters) => ({
-                ...prevFilters,
-                [filterName]: item,
-              }))
-            }
-            style={[styles.outlineButton]}
-          >
-            <Text style={[styles.outlineButtonText]}>
-              {capitalizeFirstLetter(item)}
-            </Text>
-          </Pressable>
-        ))}
+        data.map((item, index) => {
+          const isActive = filters && filters[filterName] === item;
+
+          const backgroundColor = isActive
+            ? theme.colors.neutral(0.7)
+            : "white";
+
+          const color = isActive ? "white" : theme.colors.neutral(0.7);
+
+          return (
+            <Pressable
+              key={index}
+              onPress={() =>
+                setFilters((prevFilters) => ({
+                  ...prevFilters,
+                  [filterName]: item,
+                }))
+              }
+              style={[styles.outlineButton, { backgroundColor }]}
+            >
+              <Text style={[styles.outlineButtonText, { color }]}>
+                {capitalizeFirstLetter(item)}
+              </Text>
+            </Pressable>
+          );
+        })}
     </View>
   );
 };
