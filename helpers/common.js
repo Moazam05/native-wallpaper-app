@@ -26,3 +26,8 @@ export const getImageSize = (width, height) => {
     return 200;
   }
 };
+
+export function capitalizeFirstLetter(str) {
+  if (!str) return ""; // Handle empty string case
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}

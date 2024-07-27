@@ -7,8 +7,10 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { hp } from "../../../helpers/common";
+import { capitalizeFirstLetter, hp } from "../../../helpers/common";
 import { theme } from "../../../constants/theme";
+import { CommonFiltersRow, OrderView, SectionView } from "./FiltersView";
+import { filters } from "../../../constants/category";
 
 const FiltersModal = ({ modalRef }) => {
   const snapPoints = useMemo(() => ["75%"], []);
@@ -24,11 +26,32 @@ const FiltersModal = ({ modalRef }) => {
       <BottomSheetView style={styles.contentContainer}>
         <View style={styles.content}>
           <Text style={styles.filterText}>Filters</Text>
-          <Text style={styles.filterText}>Search here</Text>
+
+          {/* FILTERS SECTION */}
+          {Object.keys(sections).map((sectionName, index) => {
+            let sectionView = sections[sectionName];
+
+            return (
+              <View key={index}>
+                <SectionView
+                  title={capitalizeFirstLetter(sectionName)}
+                  content={sectionView({})}
+                />
+              </View>
+            );
+          })}
         </View>
       </BottomSheetView>
     </BottomSheetModal>
   );
+};
+
+// FILTERS SECTION
+const sections = {
+  order: (props) => <CommonFiltersRow {...props} />,
+  orientation: (props) => <CommonFiltersRow {...props} />,
+  type: (props) => <CommonFiltersRow {...props} />,
+  colors: (props) => <CommonFiltersRow {...props} />,
 };
 
 const CustomBackdrop = ({ animatedIndex, style }) => {
