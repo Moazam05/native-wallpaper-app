@@ -12,7 +12,6 @@ export const SectionView = ({ title, content }) => {
 };
 
 export const CommonFiltersRow = ({ data, filters, setFilters, filterName }) => {
-  console.log("data", data);
   return (
     <View style={styles.flexRowWrap}>
       {data &&
@@ -25,8 +24,11 @@ export const CommonFiltersRow = ({ data, filters, setFilters, filterName }) => {
                 [filterName]: item,
               }))
             }
+            style={[styles.outlineButton]}
           >
-            <Text style={styles.filterText}>{capitalizeFirstLetter(item)}</Text>
+            <Text style={[styles.outlineButtonText]}>
+              {capitalizeFirstLetter(item)}
+            </Text>
           </Pressable>
         ))}
     </View>
@@ -42,5 +44,24 @@ const styles = StyleSheet.create({
     fontSize: hp(2.4),
     fontWeight: theme.fontWeights.medium,
     color: theme.colors.neutral(0.8),
+  },
+  flexRowWrap: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+
+  outlineButton: {
+    padding: 8,
+    paddingHorizontal: 14,
+    borderWidth: 1,
+    borderColor: theme.colors.grayBG,
+    borderRadius: theme.radius.xs,
+    borderCurve: "continuous",
+  },
+
+  outlineButtonText: {
+    fontSize: hp(1.8),
+    color: theme.colors.neutral(0.6),
   },
 });
