@@ -14,7 +14,14 @@ const ImageCard = ({ item, index, columns }) => {
   };
 
   return (
-    <Pressable style={[styles.imageWrapper, !isLastInRow && styles.spacing]}>
+    <Pressable
+      style={[
+        styles.imageWrapper,
+        !isLastInRow && styles.spacing, // isLastInRow = False (marginRight)
+        !isLastInRow && styles.spacingTwo, // isLastInRow = False (marginLeft)
+        isLastInRow && styles.spacing, //  isLastInRow = True  (marginRight)
+      ]}
+    >
       <Image
         style={[styles.image, getImageHeight()]}
         source={item?.webformatURL}
@@ -40,6 +47,10 @@ const styles = StyleSheet.create({
 
   spacing: {
     marginRight: wp(2),
+  },
+
+  spacingTwo: {
+    marginLeft: wp(2),
   },
 });
 
