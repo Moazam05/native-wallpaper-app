@@ -16,7 +16,6 @@ const FiltersModal = ({ modalRef }) => {
       ref={modalRef}
       index={0}
       snapPoints={snapPoints}
-      // onChange={handleSheetChanges}
       enablePanDownToClose={true}
       backdropComponent={CustomBackdrop}
     >
@@ -28,8 +27,8 @@ const FiltersModal = ({ modalRef }) => {
 };
 
 const CustomBackdrop = ({ animatedIndex, style }) => {
-  const containerAutomatedStyle = useAnimatedStyle(() => {
-    let opacity = interpolate(
+  const containerAnimatedStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
       animatedIndex.value,
       [-1, 0],
       [0, 1],
@@ -44,8 +43,8 @@ const CustomBackdrop = ({ animatedIndex, style }) => {
   const containerStyle = [
     StyleSheet.absoluteFillObject,
     style,
-    { backgroundColor: "rgba(0,0,0,0.5)" },
-    containerAutomatedStyle,
+    styles.overlay,
+    containerAnimatedStyle,
   ];
 
   return (
@@ -59,6 +58,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     alignItems: "center",
+  },
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 });
 
