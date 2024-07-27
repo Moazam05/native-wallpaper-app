@@ -6,7 +6,7 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
 // Custom Imports
@@ -15,6 +15,9 @@ import { wp, hp } from "../../helpers/common";
 import Categories from "./components/Categories";
 import { apiCall } from "../../api";
 import ImageGrid from "./components/ImageGrid";
+import { debounce } from "lodash";
+
+var page = 1;
 
 const Home = () => {
   const insets = useSafeAreaInsets();
@@ -46,6 +49,32 @@ const Home = () => {
   useEffect(() => {
     fetchImages();
   }, []);
+
+  const handleSearch = (text) => {
+    setSearch(text);
+
+    if (text.length > 2) {
+      // then fetch images
+      page = 1;
+      setImages([]);
+      fetchImages({ page, q: text });
+    }
+
+    if (text.length === 0) {
+      // show by default images
+      page = 1;
+      setImages([]);
+      fetchImages({ page });
+    }
+  };
+
+  const clearSearch = () => {
+    setSearch("");
+    searchInputRef.current.clear();
+    fetchImages({ page });
+  };
+
+  const handleTextDebounce = useCallback(debounce(handleSearch, 400), []);
 
   return (
     <View style={[styles.container, { paddingTop }]}>
@@ -80,8 +109,8 @@ const Home = () => {
           <TextInput
             placeholder="Search for images..."
             style={styles.searchInput}
-            value={search}
-            onChangeText={(text) => setSearch(text)}
+            // value={search}
+            onChangeText={handleTextDebounce}
             ref={searchInputRef}
           />
           {search.length > 0 && (
@@ -90,6 +119,7 @@ const Home = () => {
                 name="close"
                 size={24}
                 color={theme.colors.neutral(0.6)}
+                onPress={clearSearch}
               />
             </Pressable>
           )}
