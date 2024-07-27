@@ -9,7 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { capitalizeFirstLetter, hp } from "../../../helpers/common";
 import { theme } from "../../../constants/theme";
-import { CommonFiltersRow, OrderView, SectionView } from "./FiltersView";
+import { ColorFilters, CommonFiltersRow, SectionView } from "./FiltersView";
 import { filtersType } from "../../../constants/category";
 
 const FiltersModal = ({
@@ -63,7 +63,7 @@ const sections = {
   order: (props) => <CommonFiltersRow {...props} />,
   orientation: (props) => <CommonFiltersRow {...props} />,
   type: (props) => <CommonFiltersRow {...props} />,
-  colors: (props) => <CommonFiltersRow {...props} />,
+  colors: (props) => <ColorFilters {...props} />,
 };
 
 const CustomBackdrop = ({ animatedIndex, style }) => {

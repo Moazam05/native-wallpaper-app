@@ -45,6 +45,39 @@ export const CommonFiltersRow = ({ data, filters, setFilters, filterName }) => {
   );
 };
 
+export const ColorFilters = ({ data, filters, setFilters, filterName }) => {
+  return (
+    <View style={styles.flexRowWrap}>
+      {data &&
+        data.map((item, index) => {
+          const isActive = filters && filters[filterName] === item;
+
+          const backgroundColor = isActive
+            ? theme.colors.neutral(0.7)
+            : "white";
+
+          const color = isActive ? "white" : theme.colors.neutral(0.7);
+
+          return (
+            <Pressable
+              key={index}
+              onPress={() =>
+                setFilters((prevFilters) => ({
+                  ...prevFilters,
+                  [filterName]: item,
+                }))
+              }
+            >
+              <View style={[styles.colorWrapper]}>
+                <View style={[styles.color, { backgroundColor: item }]}></View>
+              </View>
+            </Pressable>
+          );
+        })}
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   sectionContainer: {
     gap: 8,
@@ -73,5 +106,16 @@ const styles = StyleSheet.create({
   outlineButtonText: {
     fontSize: hp(1.8),
     color: theme.colors.neutral(0.6),
+  },
+
+  colorWrapper: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    overflow: "hidden",
+  },
+
+  color: {
+    flex: 1,
   },
 });
