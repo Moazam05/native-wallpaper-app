@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import { hp } from "../../../helpers/common";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { capitalizeFirstLetter, hp } from "../../../helpers/common";
 import { theme } from "../../../constants/theme";
 
 export const SectionView = ({ title, content }) => {
@@ -11,10 +11,26 @@ export const SectionView = ({ title, content }) => {
   );
 };
 
-export const CommonFiltersRow = () => {
-  <View>
-    <Text>Order View</Text>
-  </View>;
+export const CommonFiltersRow = ({ data, filters, setFilters, filterName }) => {
+  console.log("data", data);
+  return (
+    <View style={styles.flexRowWrap}>
+      {data &&
+        data.map((item, index) => (
+          <Pressable
+            key={index}
+            onPress={() =>
+              setFilters((prevFilters) => ({
+                ...prevFilters,
+                [filterName]: item,
+              }))
+            }
+          >
+            <Text style={styles.filterText}>{capitalizeFirstLetter(item)}</Text>
+          </Pressable>
+        ))}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

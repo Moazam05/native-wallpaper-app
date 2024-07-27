@@ -21,7 +21,7 @@ export const categoriesData = [
   "music",
 ];
 
-export const filters = {
+export const filtersType = {
   order: ["popular", "latest"],
   orientation: ["horizontal", "vertical"],
   type: ["phqto", "illustration", "vector"],

@@ -31,6 +31,9 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState(null);
   const [images, setImages] = useState([]);
+  const [filters, setFilters] = useState(null);
+
+  console.log("filters", filters);
 
   const handleChangeCategory = (category) => {
     setActiveCategory(category);
@@ -100,6 +103,16 @@ const Home = () => {
     modalRef.current?.close();
   };
 
+  const applyingFilters = () => {
+    console.log("applying filters");
+    closeFiltersModal();
+  };
+
+  const resetFilters = () => {
+    console.log("reset filters");
+    closeFiltersModal();
+  };
+
   return (
     <View style={[styles.container, { paddingTop }]}>
       {/* Header */}
@@ -162,7 +175,14 @@ const Home = () => {
       </ScrollView>
 
       {/* Filters Model */}
-      <FilterModal modalRef={modalRef} />
+      <FilterModal
+        modalRef={modalRef}
+        filters={filters}
+        setFilters={setFilters}
+        onClose={closeFiltersModal}
+        onApply={applyingFilters}
+        onReset={resetFilters}
+      />
     </View>
   );
 };

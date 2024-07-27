@@ -10,9 +10,16 @@ import Animated, {
 import { capitalizeFirstLetter, hp } from "../../../helpers/common";
 import { theme } from "../../../constants/theme";
 import { CommonFiltersRow, OrderView, SectionView } from "./FiltersView";
-import { filters } from "../../../constants/category";
+import { filtersType } from "../../../constants/category";
 
-const FiltersModal = ({ modalRef }) => {
+const FiltersModal = ({
+  modalRef,
+  filters,
+  setFilters,
+  onClose,
+  onApply,
+  onReset,
+}) => {
   const snapPoints = useMemo(() => ["75%"], []);
 
   return (
@@ -35,7 +42,12 @@ const FiltersModal = ({ modalRef }) => {
               <View key={index}>
                 <SectionView
                   title={capitalizeFirstLetter(sectionName)}
-                  content={sectionView({})}
+                  content={sectionView({
+                    data: filtersType[sectionName],
+                    filters,
+                    setFilters,
+                    filterName: sectionName,
+                  })}
                 />
               </View>
             );
