@@ -20,7 +20,6 @@ const ImageCard = ({ item, index, columns }) => {
         source={item?.webformatURL}
         transition={100}
       />
-      <Text>{item?.webformatURL}</Text>
     </Pressable>
   );
 };
