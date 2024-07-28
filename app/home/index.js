@@ -16,7 +16,7 @@ import Categories from "./components/Categories";
 import { apiCall } from "../../api";
 import ImageGrid from "./components/ImageGrid";
 import { debounce } from "lodash";
-import FilterModal from "./Modals/FiltersModal";
+import FiltersModal from "./Modals/FiltersModal";
 
 var page = 1;
 
@@ -175,7 +175,7 @@ const Home = () => {
       </ScrollView>
 
       {/* Filters Model */}
-      <FilterModal
+      <FiltersModal
         modalRef={modalRef}
         filters={filters}
         setFilters={setFilters}
