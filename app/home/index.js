@@ -143,6 +143,27 @@ const Home = () => {
     closeFiltersModal();
   };
 
+  const clearThisFilter = (filter) => () => {
+    let newFilters = { ...filters };
+    delete newFilters[filter];
+    setFilters(newFilters);
+    // fetch images
+    page = 1;
+    setImages([]);
+    let params = {
+      page,
+      append: false,
+      ...newFilters,
+    };
+    if (activeCategory) {
+      params.category = activeCategory;
+    }
+    if (search) {
+      params.q = search;
+    }
+    fetchImages(params);
+  };
+
   return (
     <View style={[styles.container, { paddingTop }]}>
       {/* Header */}
@@ -204,7 +225,12 @@ const Home = () => {
         {filters && (
           <View>
             <Text
-              style={{ fontSize: 16, fontWeight: "bold", marginHorizontal: 5 }}
+              style={{
+                fontSize: 16,
+                fontWeight: "bold",
+                marginLeft: 10,
+                marginBottom: 3,
+              }}
             >
               Filters Applied
             </Text>
@@ -212,7 +238,7 @@ const Home = () => {
               style={{
                 flexDirection: "row",
                 flexWrap: "wrap",
-                marginHorizontal: 5,
+                marginHorizontal: 7,
               }}
             >
               {Object.keys(filters).map((filter, index) => {
@@ -234,13 +260,7 @@ const Home = () => {
                       {filters[filter]}
                     </Text>
                     {/* close icon to remove filter */}
-                    <Pressable
-                      onPress={() => {
-                        let newFilters = { ...filters };
-                        delete newFilters[filter];
-                        setFilters(newFilters);
-                      }}
-                    >
+                    <Pressable onPress={clearThisFilter(filter)}>
                       <Ionicons
                         name="close"
                         size={16}
