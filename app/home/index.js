@@ -33,8 +33,6 @@ const Home = () => {
   const [images, setImages] = useState([]);
   const [filters, setFilters] = useState(null);
 
-  console.log("filters", filters);
-
   const handleChangeCategory = (category) => {
     setActiveCategory(category);
     // clear search
@@ -43,7 +41,7 @@ const Home = () => {
     page = 1;
     setImages([]);
 
-    let params = { page, append: false };
+    let params = { page, append: false, ...filters };
     if (category) {
       params.category = category;
     }
@@ -76,14 +74,14 @@ const Home = () => {
       // then fetch images
       page = 1;
       setImages([]);
-      fetchImages({ page, q: text });
+      fetchImages({ page, q: text, append: false, ...filters });
     }
 
     if (text.length === 0) {
       // show by default images
       page = 1;
       setImages([]);
-      fetchImages({ page });
+      fetchImages({ page, append: false, ...filters });
     }
   };
 
@@ -104,12 +102,43 @@ const Home = () => {
   };
 
   const applyingFilters = () => {
-    console.log("applying filters");
+    if (filters) {
+      page = 1;
+      setImages([]);
+      let params = {
+        page,
+        append: false,
+        ...filters,
+      };
+      if (activeCategory) {
+        params.category = activeCategory;
+      }
+      if (search) {
+        params.q = search;
+      }
+      fetchImages(params);
+    }
+
     closeFiltersModal();
   };
 
   const resetFilters = () => {
-    console.log("reset filters");
+    if (filters) {
+      page = 1;
+      setFilters(null);
+      setImages([]);
+      let params = {
+        page,
+        append: false,
+      };
+      if (activeCategory) {
+        params.category = activeCategory;
+      }
+      if (search) {
+        params.q = search;
+      }
+      fetchImages(params);
+    }
     closeFiltersModal();
   };
 
