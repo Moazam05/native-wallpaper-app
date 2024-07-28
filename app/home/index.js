@@ -200,6 +200,60 @@ const Home = () => {
           />
         </View>
 
+        {/* Filters */}
+        {filters && (
+          <View>
+            <Text
+              style={{ fontSize: 16, fontWeight: "bold", marginHorizontal: 5 }}
+            >
+              Filters Applied
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                marginHorizontal: 5,
+              }}
+            >
+              {Object.keys(filters).map((filter, index) => {
+                return (
+                  <View
+                    key={index}
+                    style={{
+                      padding: 5,
+                      margin: 5,
+                      backgroundColor: theme.colors.neutral(0.1),
+                      borderRadius: 5,
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{ color: theme.colors.neutral(0.7), padding: 2 }}
+                    >
+                      {filters[filter]}
+                    </Text>
+                    {/* close icon to remove filter */}
+                    <Pressable
+                      onPress={() => {
+                        let newFilters = { ...filters };
+                        delete newFilters[filter];
+                        setFilters(newFilters);
+                      }}
+                    >
+                      <Ionicons
+                        name="close"
+                        size={16}
+                        color={theme.colors.neutral(0.7)}
+                      />
+                    </Pressable>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        )}
+
         {/* Images Masonry Grid */}
         <View>{images?.length > 0 && <ImageGrid images={images} />}</View>
 
