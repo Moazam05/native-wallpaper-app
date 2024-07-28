@@ -5,6 +5,7 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -201,6 +202,16 @@ const Home = () => {
 
         {/* Images Masonry Grid */}
         <View>{images?.length > 0 && <ImageGrid images={images} />}</View>
+
+        {/* Loading */}
+        <View
+          style={{
+            marginBottom: 70,
+            marginTop: images.length > 0 ? 10 : 70,
+          }}
+        >
+          <ActivityIndicator size="large" />
+        </View>
       </ScrollView>
 
       {/* Filters Model */}
