@@ -67,7 +67,7 @@ export const ColorFilters = ({ data, filters, setFilters, filterName }) => {
                 <View style={[styles.color, { backgroundColor: item }]}>
                   {isActive && (
                     <MaterialCommunityIcons
-                      name="check-all"
+                      name="check"
                       size={24}
                       color="white"
                     />
