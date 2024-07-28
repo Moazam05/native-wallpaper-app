@@ -254,11 +254,24 @@ const Home = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Text
-                      style={{ color: theme.colors.neutral(0.7), padding: 2 }}
-                    >
-                      {filters[filter]}
-                    </Text>
+                    {filter === "colors" ? (
+                      <View
+                        style={{
+                          width: 20,
+                          height: 20,
+                          backgroundColor: filters[filter],
+                          marginRight: 5,
+                          borderRadius: 5,
+                        }}
+                      ></View>
+                    ) : (
+                      <Text
+                        style={{ color: theme.colors.neutral(0.7), padding: 2 }}
+                      >
+                        {filters[filter]}
+                      </Text>
+                    )}
+
                     {/* close icon to remove filter */}
                     <Pressable onPress={clearThisFilter(filter)}>
                       <Ionicons
