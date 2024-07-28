@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { capitalizeFirstLetter, hp } from "../../../helpers/common";
 import { theme } from "../../../constants/theme";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export const SectionView = ({ title, content }) => {
   return (
@@ -47,16 +48,10 @@ export const CommonFiltersRow = ({ data, filters, setFilters, filterName }) => {
 
 export const ColorFilters = ({ data, filters, setFilters, filterName }) => {
   return (
-    <View style={styles.flexRowWrap}>
+    <View style={styles.flexRowWrapTwo}>
       {data &&
         data.map((item, index) => {
           const isActive = filters && filters[filterName] === item;
-
-          const backgroundColor = isActive
-            ? theme.colors.neutral(0.7)
-            : "white";
-
-          const color = isActive ? "white" : theme.colors.neutral(0.7);
 
           return (
             <Pressable
@@ -69,7 +64,15 @@ export const ColorFilters = ({ data, filters, setFilters, filterName }) => {
               }
             >
               <View style={[styles.colorWrapper]}>
-                <View style={[styles.color, { backgroundColor: item }]}></View>
+                <View style={[styles.color, { backgroundColor: item }]}>
+                  {isActive && (
+                    <MaterialCommunityIcons
+                      name="check-all"
+                      size={24}
+                      color="white"
+                    />
+                  )}
+                </View>
               </View>
             </Pressable>
           );
@@ -108,14 +111,20 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral(0.6),
   },
 
-  colorWrapper: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    overflow: "hidden",
+  flexRowWrapTwo: {
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
-
+  colorWrapper: {
+    margin: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   color: {
-    flex: 1,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
