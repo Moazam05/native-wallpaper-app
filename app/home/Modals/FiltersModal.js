@@ -4,6 +4,7 @@ import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
 import Animated, {
   Extrapolation,
+  FadeInDown,
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
@@ -39,7 +40,12 @@ const FiltersModal = ({
             let sectionView = sections[sectionName];
 
             return (
-              <View key={index}>
+              <Animated.View
+                key={index}
+                entering={FadeInDown.delay(index * 100 + 100)
+                  .springify()
+                  .damping(11)}
+              >
                 <SectionView
                   title={capitalizeFirstLetter(sectionName)}
                   content={sectionView({
@@ -49,12 +55,15 @@ const FiltersModal = ({
                     filterName: sectionName,
                   })}
                 />
-              </View>
+              </Animated.View>
             );
           })}
 
           {/* ACTION BUTTONS */}
-          <View style={styles.buttons}>
+          <Animated.View
+            style={styles.buttons}
+            entering={FadeInDown.delay(500).springify().damping(11)}
+          >
             <Pressable style={styles.resetButton} onPress={onReset}>
               <Text
                 style={[
@@ -70,7 +79,7 @@ const FiltersModal = ({
                 Apply
               </Text>
             </Pressable>
-          </View>
+          </Animated.View>
         </View>
       </BottomSheetView>
     </BottomSheetModal>
