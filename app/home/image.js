@@ -5,13 +5,15 @@ import {
   Button,
   Platform,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import React, { useState } from "react";
 import { BlurView } from "expo-blur";
-import { wp } from "../../helpers/common";
+import { hp, wp } from "../../helpers/common";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Image } from "expo-image";
 import { theme } from "../../constants/theme";
+import { Entypo, Octicons } from "@expo/vector-icons";
 
 const ImageScreen = () => {
   const router = useRouter();
@@ -62,7 +64,29 @@ const ImageScreen = () => {
         />
       </View>
 
-      <Button title="Go Back" onPress={() => router.back()} />
+      <View style={styles.buttons}>
+        <View>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              router.back();
+            }}
+          >
+            <Octicons name="x" size={22} color="white" />
+          </Pressable>
+        </View>
+        <View>
+          <Pressable style={styles.button}>
+            <Octicons name="download" size={22} color="white" />
+          </Pressable>
+        </View>
+
+        <View>
+          <Pressable style={styles.button}>
+            <Entypo name="share" size={22} color="white" />
+          </Pressable>
+        </View>
+      </View>
     </BlurView>
   );
 };
@@ -89,6 +113,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: "100%",
+  },
+
+  buttons: {
+    marginTop: 40,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 50,
+  },
+
+  button: {
+    height: hp(6),
+    width: hp(6),
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(225,225,225,0.2)",
+    borderRadius: theme.radius.xs,
+    borderCurve: "continuous",
   },
 });
 
