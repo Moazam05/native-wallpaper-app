@@ -1,15 +1,15 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Platform } from "react-native";
 import React, { useState } from "react";
 import { BlurView } from "expo-blur";
 import { wp } from "../../helpers/common";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Image } from "expo-image";
+import { theme } from "../../constants/theme";
 
-const ImageScree = () => {
+const ImageScreen = () => {
   const router = useRouter();
   const item = useLocalSearchParams();
   const uri = item?.webformatURL;
-  console.log("uri", uri);
   const [status, setStatus] = useState("");
 
   const onLoad = () => {
@@ -17,18 +17,35 @@ const ImageScree = () => {
   };
 
   const getSize = () => {
+    const aspectRatio = item?.imageWidth / item?.imageHeight;
+
+    const maxWidth = Platform.OS === "web" ? 300 : wp(92);
+    let calculatedHeight = maxWidth / aspectRatio;
+    let calculatedWidth = maxWidth;
+
+    if (aspectRatio < 1) {
+      // Portrait mode
+      calculatedWidth = maxWidth;
+      calculatedHeight = calculatedWidth / aspectRatio;
+    } else {
+      // Landscape mode
+      calculatedHeight = maxWidth / aspectRatio;
+      calculatedWidth = maxWidth;
+    }
+
     return {
-      height: 200,
-      width: 200,
+      height: calculatedHeight,
+      width: calculatedWidth,
     };
   };
+
   return (
     <BlurView style={styles.container} tint="dark" intensity={60}>
-      <View style={[]}>
+      <View>
         <Image
           transition={100}
-          style={[styles.image, getSize]}
-          source={uri}
+          style={[styles.image, getSize()]} // Execute getSize() to get the style object
+          source={{ uri }}
           onLoad={onLoad}
         />
       </View>
@@ -48,11 +65,11 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: "100%",
-    height: 300,
-    borderRadius: 10,
-    marginBottom: wp(2),
+    borderRadius: theme.radius.lg,
+    borderWidth: 2,
+    backgroundColor: "rgba(225,225,225,0.1)",
+    borderColor: "rgba(225,225,225,0.1)",
   },
 });
 
-export default ImageScree;
+export default ImageScreen;
