@@ -18,6 +18,7 @@ import { apiCall } from "../../api";
 import ImageGrid from "./components/ImageGrid";
 import { debounce } from "lodash";
 import FiltersModal from "./Modals/FiltersModal";
+import { useRouter } from "expo-router";
 
 var page = 1;
 
@@ -25,6 +26,7 @@ const Home = () => {
   const insets = useSafeAreaInsets();
   const paddingTop = insets.top > 0 ? insets.top + 10 : 30;
 
+  const router = useRouter();
   const searchInputRef = useRef(null);
   const modalRef = useRef(null);
   const scrollRef = useRef(null);
@@ -327,7 +329,9 @@ const Home = () => {
         )}
 
         {/* Images Masonry Grid */}
-        <View>{images?.length > 0 && <ImageGrid images={images} />}</View>
+        <View>
+          {images?.length > 0 && <ImageGrid images={images} router={router} />}
+        </View>
 
         {/* Loading */}
         <View
