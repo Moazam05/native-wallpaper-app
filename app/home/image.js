@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Button, Platform } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Platform,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import { BlurView } from "expo-blur";
 import { wp } from "../../helpers/common";
@@ -10,7 +17,7 @@ const ImageScreen = () => {
   const router = useRouter();
   const item = useLocalSearchParams();
   const uri = item?.webformatURL;
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("loading");
 
   const onLoad = () => {
     setStatus("");
@@ -41,7 +48,12 @@ const ImageScreen = () => {
 
   return (
     <BlurView style={styles.container} tint="dark" intensity={60}>
-      <View>
+      <View style={getSize()}>
+        <View style={styles.loading}>
+          {status === "loading" && (
+            <ActivityIndicator color="white" size="large" />
+          )}
+        </View>
         <Image
           transition={100}
           style={[styles.image, getSize()]} // Execute getSize() to get the style object
@@ -69,6 +81,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "rgba(225,225,225,0.1)",
     borderColor: "rgba(225,225,225,0.1)",
+  },
+
+  loading: {
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
   },
 });
 
