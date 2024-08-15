@@ -27,12 +27,14 @@ const Home = () => {
 
   const searchInputRef = useRef(null);
   const modalRef = useRef(null);
+  const scrollRef = useRef(null);
 
   // states
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState(null);
   const [images, setImages] = useState([]);
   const [filters, setFilters] = useState(null);
+  const [isEndReached, setIsEndReached] = useState(false);
 
   const handleChangeCategory = (category) => {
     setActiveCategory(category);
@@ -164,11 +166,45 @@ const Home = () => {
     fetchImages(params);
   };
 
+  const handleScroll = (event) => {
+    const contentHeight = event.nativeEvent.contentSize.height;
+    const scrollViewHeight = event.nativeEvent.layoutMeasurement.height;
+    const scrollOffset = event.nativeEvent.contentOffset.y;
+    const bottomPosition = contentHeight - scrollViewHeight;
+
+    if (scrollOffset >= bottomPosition - 1) {
+      if (!isEndReached) {
+        console.log("scrolling", page);
+        // fetch next page
+        ++page;
+        let params = {
+          page,
+          append: true,
+          ...filters,
+        };
+        if (activeCategory) {
+          params.category = activeCategory;
+        }
+        if (search) {
+          params.q = search;
+        }
+        fetchImages(params);
+        setIsEndReached(true);
+      }
+    } else if (isEndReached) {
+      setIsEndReached(false);
+    }
+  };
+
+  const handleScrollUp = () => {
+    scrollRef.current.scrollTo({ y: 0, animated: true });
+  };
+
   return (
     <View style={[styles.container, { paddingTop }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Pressable>
+        <Pressable onPress={handleScrollUp}>
           <Text style={styles.title}>Pixels</Text>
         </Pressable>
         <Pressable onPress={openFiltersModal}>
@@ -181,6 +217,9 @@ const Home = () => {
       </View>
 
       <ScrollView
+        onScroll={handleScroll}
+        scrollEventThrottle={5} // it takes as ms
+        ref={scrollRef}
         contentContainerStyle={{
           gap: 15,
         }}
