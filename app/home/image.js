@@ -17,6 +17,8 @@ import { theme } from "../../constants/theme";
 import { Entypo, Octicons } from "@expo/vector-icons";
 import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
+import Toast from "react-native-toast-message";
 
 const ImageScreen = () => {
   const router = useRouter();
@@ -59,11 +61,18 @@ const ImageScreen = () => {
     setStatus("downloading");
     const uri = await downloadFile();
     if (uri) {
-      Alert.alert("Success", "Image downloaded successfully");
+      showToast("Image downloaded successfully");
     }
   };
 
-  const handleShareImage = async () => {};
+  const handleShareImage = async () => {
+    setStatus("sharing");
+    const uri = await downloadFile();
+    if (uri) {
+      await Sharing.shareAsync(uri);
+      setStatus("");
+    }
+  };
 
   const downloadFile = async () => {
     try {
@@ -76,6 +85,22 @@ const ImageScreen = () => {
       setStatus("");
       return null;
     }
+  };
+
+  const showToast = (message) => {
+    Toast.show({
+      type: "success",
+      text1: message,
+      position: "bottom",
+    });
+  };
+
+  const toastConfig = {
+    success: ({ text1, props, ...rest }) => (
+      <View style={styles.toast}>
+        <Text style={styles.toastText}>{text1}</Text>
+      </View>
+    ),
   };
 
   return (
@@ -118,11 +143,18 @@ const ImageScreen = () => {
         </Animated.View>
 
         <Animated.View entering={FadeInDown.springify().delay(200)}>
-          <Pressable style={styles.button} onPress={handleShareImage}>
-            <Entypo name="share" size={22} color="white" />
-          </Pressable>
+          {status === "sharing" ? (
+            <View style={styles.button}>
+              <ActivityIndicator color="white" size="small" />
+            </View>
+          ) : (
+            <Pressable style={styles.button} onPress={handleShareImage}>
+              <Entypo name="share" size={22} color="white" />
+            </Pressable>
+          )}
         </Animated.View>
       </View>
+      <Toast config={toastConfig} visibilityTime={2500} />
     </BlurView>
   );
 };
@@ -166,6 +198,21 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(225,225,225,0.2)",
     borderRadius: theme.radius.xs,
     borderCurve: "continuous",
+  },
+
+  toast: {
+    padding: 15,
+    paddingHorizontal: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.15)",
+    borderRadius: theme.radius.xs,
+  },
+
+  toastText: {
+    fontSize: hp(1.8),
+    fontWeight: theme.fontWeights.semibold,
+    color: theme.colors.white,
   },
 });
 
