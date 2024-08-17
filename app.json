@@ -1,45 +1,13 @@
 {
   "expo": {
-    "name": "wallpaper-app",
-    "slug": "wallpaper-app",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.moazam05.wallpaperapp"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    },
     "extra": {
-      "router": {
-        "origin": false
-      },
       "eas": {
-        "projectId": "e1882c28-b44b-46b4-a218-30963c06eb4f"
+        "projectId": "00914853-7a50-47ff-942b-2ccda918ee81"
       }
+    },
+    "owner": "moazam05",
+    "android": {
+      "package": "com.moazam05.wallpaperapp"
     }
   }
 }
