@@ -79,8 +79,6 @@ const ImageScreen = () => {
     setStatus("downloading");
     const uri = await downloadFile();
 
-    console.log("uri", uri);
-
     if (uri) {
       showToast("Image downloaded successfully");
     } else {
@@ -100,10 +98,14 @@ const ImageScreen = () => {
   const downloadFile = async () => {
     try {
       const { uri } = await FileSystem.downloadAsync(imageUri, filePath);
+
+      const asset = await MediaLibrary.createAssetAsync(uri);
+      await MediaLibrary.createAlbumAsync("Download", asset, false);
+
       setStatus("");
       return uri;
     } catch (error) {
-      console.log("got error:", error.message);
+      console.log("Download error:", error.message);
       Alert.alert("Error", error.message);
       setStatus("");
       return null;

@@ -55,7 +55,7 @@ const Home = () => {
 
   const fetchImages = async (params = { page: 1, append: false }) => {
     let result = await apiCall(params);
-    console.log("params", params);
+    // console.log("params", params);
 
     if (result.success && result.data?.hits) {
       if (params.append) {
@@ -176,7 +176,7 @@ const Home = () => {
 
     if (scrollOffset >= bottomPosition - 1) {
       if (!isEndReached) {
-        console.log("scrolling", page);
+        // console.log("scrolling", page);
         // fetch next page
         ++page;
         let params = {
