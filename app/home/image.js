@@ -18,6 +18,7 @@ import { Entypo, Octicons } from "@expo/vector-icons";
 import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import * as MediaLibrary from "expo-media-library";
 import Toast from "react-native-toast-message";
 
 const ImageScreen = () => {
@@ -57,11 +58,33 @@ const ImageScreen = () => {
     };
   };
 
+  const requestStoragePermission = async () => {
+    if (Platform.OS === "android") {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Permission Required",
+          "You need to grant storage permission to download images."
+        );
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleDownloadImage = async () => {
+    const permissionGranted = await requestStoragePermission();
+    if (!permissionGranted) return;
+
     setStatus("downloading");
     const uri = await downloadFile();
+
+    console.log("uri", uri);
+
     if (uri) {
       showToast("Image downloaded successfully");
+    } else {
+      showToast("Failed to download image. Please try again.");
     }
   };
 
