@@ -99,8 +99,9 @@ const ImageScreen = () => {
     try {
       const { uri } = await FileSystem.downloadAsync(imageUri, filePath);
 
-      const asset = await MediaLibrary.createAssetAsync(uri);
-      await MediaLibrary.createAlbumAsync("Download", asset, false);
+      await MediaLibrary.createAssetAsync(uri);
+      // const asset = await MediaLibrary.createAssetAsync(uri);
+      // await MediaLibrary.createAlbumAsync("Download", asset, false);
 
       setStatus("");
       return uri;
