@@ -1,5 +1,8 @@
 {
   "expo": {
+    "name": "wallpaper-app",
+    "slug": "wallpaper-app",
+    "version": "1.0.0",
     "extra": {
       "eas": {
         "projectId": "00914853-7a50-47ff-942b-2ccda918ee81"
@@ -8,6 +11,11 @@
     "owner": "moazam05",
     "android": {
       "package": "com.moazam05.wallpaperapp"
-    }
+    },
+    "ios": {
+      "bundleIdentifier": "com.moazam05.wallpaperapp"
+    },
+    "scheme": "wallpaperapp",
+    "platforms": ["ios", "android", "web"]
   }
 }
