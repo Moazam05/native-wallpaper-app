@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { capitalizeFirstLetter, hp } from "../../../helpers/common";
 import { theme } from "../../../constants/theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -93,7 +93,10 @@ const styles = StyleSheet.create({
   },
   flexRowWrap: {
     flexDirection: "row",
-    flexWrap: "wrap",
+    flexWrap: Platform.select({
+      ios: "nowrap",
+      android: "wrap",
+    }),
     gap: 8,
   },
 
