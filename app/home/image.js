@@ -68,6 +68,15 @@ const ImageScreen = () => {
         );
         return false;
       }
+    } else if (Platform.OS === "ios") {
+      const { status } = await MediaLibrary.requestPermissionsAsync(true); // Request both read and write access
+      if (status !== "granted") {
+        Alert.alert(
+          "Permission Required",
+          "You need to grant photo library permission to save images."
+        );
+        return false;
+      }
     }
     return true;
   };
